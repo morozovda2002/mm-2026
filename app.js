@@ -1,5 +1,11 @@
 const { createApp } = Vue;
 
+// GitHub Pages can publish the site inside a repository subdirectory
+// (for example, /mm-2026/). Resolve bundled data from this script's URL
+// instead of from the current page URL, which may not have a trailing slash.
+const appScriptUrl = document.currentScript?.src;
+const dataUrl = new URL('results.json', appScriptUrl || window.location.href);
+
 createApp({
   data() {
     return {
@@ -56,6 +62,10 @@ createApp({
   methods: {
     categoryLabel(category) {
       return category === 'elite' ? 'Элита' : 'Любители';
+    },
+    resultHref(path) {
+      if (!path) return '#';
+      return path.startsWith('http') ? path : `https://results.runc.run${path}`;
     },
     toSeconds(value) {
       if (!value || value === 'DQ' || value === '-') return null;
@@ -117,7 +127,7 @@ createApp({
   },
   async mounted() {
     try {
-      const response = await fetch('results.json');
+      const response = await fetch(dataUrl.href);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       this.runners = await response.json();
       this.$nextTick(() => this.renderCharts());

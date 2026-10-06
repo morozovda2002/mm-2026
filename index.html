@@ -95,7 +95,7 @@
                   <td class="place-cell">{{ runner.place }}</td>
                   <td>
                     <div class="runner-name">{{ runner.name }}</div>
-                    <a class="result-link" :href="runner.result_url" target="_blank" rel="noreferrer">Карточка результата ↗</a>
+                    <a class="result-link" :href="resultHref(runner.result_url)" target="_blank" rel="noreferrer">Карточка результата ↗</a>
                   </td>
                   <td><span class="category-pill" :class="'category-pill--' + runner.class">{{ categoryLabel(runner.class) }}</span></td>
                   <td class="muted-cell">{{ runner.country_age }}</td>
